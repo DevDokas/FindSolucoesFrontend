@@ -1,9 +1,14 @@
+'use client';
 import React from 'react';
 
-export default function Home(): any {
+import { Container, Main, Title } from './pageStyle';
+
+export default function Home(): JSX.Element {
   return (
-    <main>
-      <h1>Base NextJs</h1>
-    </main>
+    <Container>
+      <Main>
+        <Title>FindStore</Title>
+      </Main>
+    </Container>
   );
 }
