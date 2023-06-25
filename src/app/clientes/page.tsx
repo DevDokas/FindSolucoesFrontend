@@ -1,10 +1,11 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { API_URL } from '@/config/api';
+import { API_URL_CLIENTS } from '@/config/api';
 import axios from 'axios';
 
 import {
@@ -28,10 +29,17 @@ import {
   ClientSectionLabel,
   ClientSectionValue,
   ContainerUserModalButttons,
-  DeleteUserButton,
   DeleteUserConfirmation,
+  DeleteUserButton,
   EditUserButton,
-  ClientIdSection
+  ClientIdSection,
+  UpdateUserModal,
+  UpdateModalCloseButton,
+  UpdateUserInput,
+  UpdateForm,
+  UpdateUserButtonContainer,
+  UpdateUserButtonConfirm,
+  UpdateUserButtonCancel
 } from './clientesStyle';
 
 export default function ClientesPage(): JSX.Element {
@@ -39,16 +47,22 @@ export default function ClientesPage(): JSX.Element {
   const [userCreated, setUserCreated] = useState<boolean>(false);
   const [nullInput, setNullInput] = useState<boolean>(false);
   const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
+  const [deletingClient, setDeletingClient] = useState<string>('');
+  const [editConfirm, setEditConfirm] = useState<boolean>(false);
+  const [editingClient, setEditingClient] = useState<string>('');
   const [fetchRes, setFetchRes] = useState<any>([]);
   const [userName, setUserName] = useState<string>('');
+  const [editedUserName, setEditedUserName] = useState<string>('');
   const [userEmail, setUserEmail] = useState<string>('');
+  const [editedUserEmail, setEditedUserEmail] = useState<string>('');
   const [userCellphone, setUserCellphone] = useState<string>('');
+  const [editedUserCellphone, setEditedUserCellphone] = useState<string>('');
 
   const router = useRouter();
 
-  useMemo(() => {
+  useEffect(() => {
     axios
-      .get(API_URL)
+      .get(API_URL_CLIENTS)
       .then((res) => {
         setFetchRes(res.data.data);
       })
@@ -58,8 +72,6 @@ export default function ClientesPage(): JSX.Element {
   }, []);
 
   async function CreateUserAccount(e: any): Promise<any> {
-    e.preventDefault();
-
     if (userName !== '' || userEmail !== '') {
       setNullInput(false);
       const data = {
@@ -71,12 +83,12 @@ export default function ClientesPage(): JSX.Element {
       };
 
       await axios
-        .post(API_URL, data)
+        .post(API_URL_CLIENTS, data)
         .then((res) => {
           setUserCreated(true);
           console.log(res);
           toast.done('Cliente registrado com sucesso');
-          router.refresh();
+          router.push('/clientes');
         })
         .catch((err) => {
           console.log(err);
@@ -91,11 +103,32 @@ export default function ClientesPage(): JSX.Element {
     }
   }
 
-  async function DeleteUserAccount(clientID: string): Promise<any> {
-    console.log(API_URL + clientID);
+  async function UpdateUserAccount(clientID: string): Promise<any> {
+    const data = {
+      data: {
+        name: editedUserName,
+        email: editedUserEmail,
+        cellphone: editedUserCellphone
+      }
+    };
+
     await axios
-      .delete(API_URL + clientID)
+      .put(API_URL_CLIENTS + clientID, data)
       .then((res) => {
+        console.log(res);
+        router.replace('/clientes');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  async function DeleteUserAccount(clientID: string): Promise<any> {
+    console.log(API_URL_CLIENTS + clientID);
+    await axios
+      .delete(API_URL_CLIENTS + clientID)
+      .then((res) => {
+        router.refresh();
         console.log('Usuário deletado com sucesso! - LOG :', res);
       })
       .catch((err) => {
@@ -202,15 +235,75 @@ export default function ClientesPage(): JSX.Element {
                 </ClientSectionValue>
               </ClientCellphoneSection>
               <ContainerUserModalButttons>
-                <EditUserButton />
-                <DeleteUserConfirmation
+                {/* TODO: Finalizar CRUD (apenas Update) */}
+                <EditUserButton
+                  onClick={() => {
+                    setEditConfirm(true);
+                    setEditingClient(cliente.id);
+                  }}
+                />
+                {editConfirm && cliente.id === editingClient ? (
+                  <UpdateUserModal>
+                    <UpdateModalCloseButton
+                      onClick={() => {
+                        setEditConfirm(false);
+                      }}
+                    />
+                    <UpdateForm>
+                      <UpdateUserInput
+                        type="text"
+                        placeholder="Nome"
+                        onChange={(e) => {
+                          setEditedUserName(e.target.value);
+                        }}
+                      />
+                      <UpdateUserInput
+                        type="text"
+                        placeholder="Email"
+                        onChange={(e) => {
+                          setEditedUserEmail(e.target.value);
+                        }}
+                      />
+                      <UpdateUserInput
+                        type="text"
+                        placeholder="Telefone"
+                        onChange={(e) => {
+                          setEditedUserCellphone(e.target.value);
+                        }}
+                      />
+                    </UpdateForm>
+                    <UpdateUserButtonContainer>
+                      <UpdateUserButtonConfirm
+                        onClick={() => UpdateUserAccount(cliente.id)}
+                      >
+                        Aplicar mudanças
+                      </UpdateUserButtonConfirm>
+                      <UpdateUserButtonCancel
+                        onClick={() => {
+                          setEditConfirm(false);
+                        }}
+                      >
+                        Cancelar mudanças
+                      </UpdateUserButtonCancel>
+                    </UpdateUserButtonContainer>
+                  </UpdateUserModal>
+                ) : null}
+              </ContainerUserModalButttons>
+              {deleteConfirm && cliente.id === deletingClient ? (
+                <DeleteUserButton
                   onClick={async () => {
-                    console.log(cliente.id);
                     await DeleteUserAccount(cliente.id);
                     setDeleteConfirm(false);
                   }}
                 />
-              </ContainerUserModalButttons>
+              ) : (
+                <DeleteUserConfirmation
+                  onClick={async () => {
+                    setDeleteConfirm(true);
+                    setDeletingClient(cliente.id);
+                  }}
+                />
+              )}
             </ClientSection>
           );
         })}

@@ -69,7 +69,7 @@ export const CreateInputDiv = styled.div`
   gap: 1vh;
 `;
 
-export const CreateNameInput = styled.input`
+export const CreateProductInput = styled.input`
   border: 0;
   color: ${color.darkFont};
   border-bottom: 0.1vh solid ${color.darkFont};
@@ -80,29 +80,7 @@ export const CreateNameInput = styled.input`
   }
 `;
 
-export const CreateEmailInput = styled.input`
-  border: 0;
-  color: ${color.darkFont};
-  border-bottom: 0.1vh solid ${color.darkFont};
-  background-color: ${color.modalBackground};
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-export const CreateCellphoneInput = styled.input`
-  border: 0;
-  color: ${color.darkFont};
-  border-bottom: 0.1vh solid ${color.darkFont};
-  background-color: ${color.modalBackground};
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-export const CreateUserButton = styled.button`
+export const CreateProductButton = styled.button`
   margin-top: 2vh;
   padding: 0.75vh 0.75vw 0.75vh 0.75vw;
   border: 0;
@@ -118,7 +96,7 @@ export const FeedbackMessage = styled.p`
   font-size: 1vh;
 `;
 
-export const ClientsTable = styled.div`
+export const ProductsTable = styled.div`
   width: 80%;
   padding: 1vh;
   border: 0;
@@ -126,41 +104,41 @@ export const ClientsTable = styled.div`
   background-color: ${color.modalBackground};
 `;
 
-export const ClientSection = styled.div`
+export const ProductsSection = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-export const ClientIdSection = styled.div`
+export const ProductsIdSection = styled.div`
   height: 7vh;
   width: 12vw;
   display: flex;
   align-items: center;
 `;
 
-export const ClientNameSection = styled.div`
+export const ProductNameSection = styled.div`
   height: 7vh;
   width: 20vw;
   display: flex;
   align-items: center;
 `;
 
-export const ClientEmailSection = styled.div`
+export const ProductPriceSection = styled.div`
   height: 7vh;
   width: 20vw;
   display: flex;
   align-items: center;
 `;
 
-export const ClientCellphoneSection = styled.div`
+export const ProductDescriptionSection = styled.div`
   height: 7vh;
   width: 18vw;
   display: flex;
   align-items: center;
 `;
 
-export const ClientSectionLabel = styled.p`
+export const ProductsSectionLabel = styled.p`
   padding: 2.5vh 2.5vw 2.5vh 2.5vw;
   border: 0;
   border-radius: 1vh;
@@ -168,35 +146,35 @@ export const ClientSectionLabel = styled.p`
   background-color: ${color.titleAttributeBackground};
 `;
 
-export const ClientSectionValue = styled.p`
+export const ProductsSectionValue = styled.p`
   padding: 2.5vh 2.5vw 2.5vh 2.5vw;
   width: 100%;
   border-bottom: 0.1vh solid ${color.darkFont};
 `;
 
-export const ContainerUserModalButttons = styled.div`
+export const ContainerProductModalButttons = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1.5vw;
 `;
 
-export const EditUserButton = styled(FaPen)`
+export const EditProductButton = styled(FaPen)`
   font-size: 2vh;
   cursor: pointer;
 `;
 
-export const DeleteUserButton = styled(FaTrashAlt)`
+export const DeleteProductButton = styled(FaTrashAlt)`
   font-size: 2vh;
   color: ${color.cancelButton};
   cursor: pointer;
 `;
 
-export const DeleteUserConfirmation = styled(FaTrashAlt)`
+export const DeleteProductConfirmation = styled(FaTrashAlt)`
   font-size: 2vh;
   cursor: pointer;
 `;
 
-export const UpdateUserModal = styled.div`
+export const UpdateProductModal = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -223,7 +201,7 @@ export const UpdateForm = styled.form`
   gap: 1vh;
 `;
 
-export const UpdateUserInput = styled.input`
+export const UpdateProductInput = styled.input`
   width: 70%;
   border: 0;
   color: ${color.darkFont};
@@ -235,14 +213,14 @@ export const UpdateUserInput = styled.input`
   }
 `;
 
-export const UpdateUserButtonContainer = styled.div`
+export const UpdateProductButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1vw;
 `;
 
-export const UpdateUserButtonConfirm = styled.button`
+export const UpdateProductButtonConfirm = styled.button`
   margin-top: 2vh;
   padding: 0.75vh 0.75vw 0.75vh 0.75vw;
   border: 0;
@@ -253,7 +231,7 @@ export const UpdateUserButtonConfirm = styled.button`
   cursor: pointer;
 `;
 
-export const UpdateUserButtonCancel = styled.button`
+export const UpdateProductButtonCancel = styled.button`
   margin-top: 2vh;
   padding: 0.75vh 0.75vw 0.75vh 0.75vw;
   border: 0;
