@@ -46,6 +46,7 @@
         "react-hooks/exhaustive-deps": "warn",
         "react/react-in-jsx-scope": "off",
         "no-useless-escape":"off",
+        "jsx-a11y/label-has-for": "off",
         "import/no-extraneous-dependencies": "off",
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/method-signature-style": "off",

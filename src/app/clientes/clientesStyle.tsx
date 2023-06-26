@@ -172,6 +172,7 @@ export const ClientSectionValue = styled.p`
   padding: 2.5vh 2.5vw 2.5vh 2.5vw;
   width: 100%;
   border-bottom: 0.1vh solid ${color.darkFont};
+  overflow: hidden;
 `;
 
 export const ContainerUserModalButttons = styled.div`

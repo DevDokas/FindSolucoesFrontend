@@ -167,7 +167,9 @@ export default function ClientesPage(): JSX.Element {
               <CreateProductInput
                 type="number"
                 step=".01"
+                min="0"
                 name="productPrice"
+                placeholder="Preço do produto"
                 onChange={(e) => {
                   setProductPrice(e.target.value);
                 }}
@@ -220,7 +222,7 @@ export default function ClientesPage(): JSX.Element {
               <ProductPriceSection>
                 <ProductsSectionLabel>Preço</ProductsSectionLabel>
                 <ProductsSectionValue>
-                  {produto.attributes.price}
+                  R${produto.attributes.price}
                 </ProductsSectionValue>
               </ProductPriceSection>
               <ProductDescriptionSection>
@@ -246,21 +248,28 @@ export default function ClientesPage(): JSX.Element {
                     <UpdateForm>
                       <UpdateProductInput
                         type="text"
-                        placeholder="Nome"
+                        name="productName"
+                        maxLength={80}
+                        placeholder="Nome do produto"
                         onChange={(e) => {
                           setEditedProductName(e.target.value);
                         }}
                       />
                       <UpdateProductInput
-                        type="text"
-                        placeholder="Email"
+                        type="number"
+                        step=".01"
+                        min="0"
+                        name="productPrice"
+                        placeholder="Preço do produto"
                         onChange={(e) => {
                           setEditedProductPrice(e.target.value);
                         }}
                       />
                       <UpdateProductInput
                         type="text"
-                        placeholder="Telefone"
+                        maxLength={255}
+                        name="productDescription"
+                        placeholder="Descrição do produto"
                         onChange={(e) => {
                           setEditedProductDescription(e.target.value);
                         }}

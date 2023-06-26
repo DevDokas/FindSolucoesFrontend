@@ -22,7 +22,10 @@ export const Main = styled.div`
 `;
 
 export const Title = styled.h1`
-  transform: translate(-25%, -25%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 10vh;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
