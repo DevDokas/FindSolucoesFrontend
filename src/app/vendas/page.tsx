@@ -45,11 +45,14 @@ import {
   SaleInfoProductPriceLabel,
   SaleInfoContainerClose,
   Title,
+  Subtitle,
+  ModalDescription,
   SaleInfoContainerOpen,
   ClientSelectorLabel,
   ClientSelectorContainer,
   RegisterProductInputContainer,
-  ModalTitle
+  ModalTitle,
+  RegisterSaleButtonContainer
 } from './vendasStyle';
 import 'react-toastify/dist/ReactToastify.css';
 export default function VendasPage(): JSX.Element {
@@ -182,7 +185,11 @@ export default function VendasPage(): JSX.Element {
             </ClientSelector>
           </ClientSelectorContainer>
           <ProductSelectorContainer>
-            <p>Selecionar produtos: </p>
+            <Subtitle>Selecionar produtos: </Subtitle>
+            <ModalDescription>
+              Digite o número desejado no campo relacionado, e então clique no
+              carrinho ao lado para adicionar!
+            </ModalDescription>
             {fetchProductsRes?.map((produto) => {
               return (
                 <RegisterProductContainer key={produto.id}>
@@ -217,7 +224,7 @@ export default function VendasPage(): JSX.Element {
                 </RegisterProductContainer>
               );
             })}
-            <div>
+            <RegisterSaleButtonContainer>
               <RegisterSaleButtonAdd onClick={() => registerSale()}>
                 Registrar compra
               </RegisterSaleButtonAdd>
@@ -232,7 +239,7 @@ export default function VendasPage(): JSX.Element {
               >
                 Cancelar compra
               </RegisterSaleButtonCancel>
-            </div>
+            </RegisterSaleButtonContainer>
           </ProductSelectorContainer>
         </RegisterSaleContainer>
       ) : null}

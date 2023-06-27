@@ -80,6 +80,18 @@ export const CreateProductInput = styled.input`
   }
 `;
 
+export const CreateProductTextarea = styled.textarea`
+  border: 0;
+  color: ${color.darkFont};
+  border-bottom: 0.1vh solid ${color.darkFont};
+  background-color: ${color.modalBackground};
+  overflow: scroll;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 export const CreateProductButton = styled.button`
   margin-top: 2vh;
   padding: 0.75vh 0.75vw 0.75vh 0.75vw;
@@ -147,9 +159,19 @@ export const ProductsSectionLabel = styled.p`
 `;
 
 export const ProductsSectionValue = styled.p`
+  height: 2vh;
   padding: 2.5vh 2.5vw 2.5vh 2.5vw;
   width: 100%;
   border-bottom: 0.1vh solid ${color.darkFont};
+`;
+
+export const ProductsSectionValueTextarea = styled.p`
+  height: 2vh;
+  padding: 2.5vh 2.5vw 2.5vh 2.5vw;
+  width: 100%;
+  border-bottom: 0.1vh solid ${color.darkFont};
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 export const ContainerProductModalButttons = styled.div`

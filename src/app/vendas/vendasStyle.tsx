@@ -17,6 +17,15 @@ export const Title = styled.h1`
   font-size: 3vh;
 `;
 
+export const Subtitle = styled.p`
+  font-size: 2vh;
+`;
+
+export const ModalDescription = styled.p`
+  text-align: center;
+  font-size: 1.1vh;
+`;
+
 export const RegisterSaleContainer = styled.div`
   position: absolute;
   display: flex;
@@ -45,8 +54,8 @@ export const ShowSalesContainer = styled.div`
 
 export const ClientSelectorContainer = styled.div`
   display: flex;
-  align-items: center;
   width: 80%;
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -88,6 +97,12 @@ export const RegisterProductInput = styled.input`
 
 export const RegisterProductButton = styled(FaCartPlus)`
   font-size: 2vh;
+  cursor: pointer;
+`;
+
+export const RegisterSaleButtonContainer = styled.div`
+  display: flex;
+  gap: 1.5vw;
 `;
 
 export const RegisterSaleButtonAdd = styled.button`
@@ -136,6 +151,7 @@ export const SaleInfoContainerOpen = styled.button`
   font-size: 1.5vh;
   color: ${color.whiteFont};
   background-color: ${color.confirmButton};
+  cursor: pointer;
 `;
 
 export const SaleInfoContainerClose = styled(FaTimes)`
@@ -150,6 +166,7 @@ export const SaleInfoIdContainer = styled.div`
 `;
 
 export const SaleInfoIdLabel = styled.p`
+  font-weight: 700;
   text-align: center;
   width: 3vw;
   border-bottom: 0.1vh solid ${color.darkFont};
@@ -162,6 +179,7 @@ export const SaleInfoIdValue = styled.p`
 export const SaleInfoClientNameContainer = styled.div``;
 
 export const SaleInfoClientNameLabel = styled.p`
+  font-weight: 700;
   text-align: center;
   width: 5vw;
   border-bottom: 0.1vh solid ${color.darkFont};
@@ -182,9 +200,11 @@ export const RegisterProductInputContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1vw;
 `;
 
 export const SaleInfoProductLabel = styled.p`
+  font-weight: 700;
   text-align: center;
   width: 5vw;
   border-bottom: 0.1vh solid ${color.darkFont};
@@ -198,6 +218,7 @@ export const SaleInfoProductNameAndPriceContainer = styled.div`
 export const SaleInfoProductNameContainer = styled.div``;
 
 export const SaleInfoProductPriceLabel = styled.p`
+  font-weight: 700;
   text-align: center;
   width: 5vw;
   border-bottom: 0.1vh solid ${color.darkFont};
@@ -216,6 +237,7 @@ export const SaleInfoProductPrice = styled.p`
 export const SaleInfoNumProductContainer = styled.div``;
 
 export const SaleInfoNumProductLabel = styled.p`
+  font-weight: 700;
   text-align: center;
   width: 5vw;
   border-bottom: 0.1vh solid ${color.darkFont};
@@ -234,6 +256,7 @@ export const SalePriceValue = styled.p``;
 export const SaleInfoTotalPriceContainer = styled.div``;
 
 export const SaleInfoTotalPriceLabel = styled.p`
+  font-weight: 700;
   text-align: center;
   width: 5vw;
   border-bottom: 0.1vh solid ${color.darkFont};

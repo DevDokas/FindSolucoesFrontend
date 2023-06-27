@@ -134,7 +134,7 @@ export const ClientSection = styled.div`
 
 export const ClientIdSection = styled.div`
   height: 7vh;
-  width: 12vw;
+  width: 10vw;
   display: flex;
   align-items: center;
 `;
@@ -148,7 +148,7 @@ export const ClientNameSection = styled.div`
 
 export const ClientEmailSection = styled.div`
   height: 7vh;
-  width: 20vw;
+  width: 25vw;
   display: flex;
   align-items: center;
 `;

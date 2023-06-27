@@ -16,6 +16,7 @@ import {
   CreateModalButton,
   CreateModalCloseButton,
   CreateInputDiv,
+  CreateProductTextarea,
   CreateProductInput,
   CreateProductButton,
   FeedbackMessage,
@@ -26,6 +27,7 @@ import {
   ProductDescriptionSection,
   ProductsSectionLabel,
   ProductsSectionValue,
+  ProductsSectionValueTextarea,
   ContainerProductModalButttons,
   DeleteProductConfirmation,
   DeleteProductButton,
@@ -174,8 +176,7 @@ export default function ClientesPage(): JSX.Element {
                   setProductPrice(e.target.value);
                 }}
               />
-              <CreateProductInput
-                type="text"
+              <CreateProductTextarea
                 maxLength={255}
                 name="productDescription"
                 placeholder="Descrição do produto"
@@ -227,9 +228,9 @@ export default function ClientesPage(): JSX.Element {
               </ProductPriceSection>
               <ProductDescriptionSection>
                 <ProductsSectionLabel>Descrição</ProductsSectionLabel>
-                <ProductsSectionValue>
+                <ProductsSectionValueTextarea>
                   {produto.attributes.description}
-                </ProductsSectionValue>
+                </ProductsSectionValueTextarea>
               </ProductDescriptionSection>
               <ContainerProductModalButttons>
                 <EditProductButton
