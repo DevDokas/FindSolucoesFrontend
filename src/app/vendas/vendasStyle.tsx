@@ -31,7 +31,7 @@ export const RegisterSaleContainer = styled.div`
   border-radius: 1vh;
   background-color: ${color.modalBackground};
   transform: translate(-50%, 0);
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 export const ShowSalesContainer = styled.div`
@@ -45,12 +45,13 @@ export const ShowSalesContainer = styled.div`
 
 export const ClientSelectorContainer = styled.div`
   display: flex;
+  align-items: center;
   width: 80%;
   justify-content: space-between;
 `;
 
 export const ClientSelectorLabel = styled.p`
-  font-size: 1.2vh;
+  font-size: 1.7vh;
 `;
 
 export const ClientSelector = styled.select`

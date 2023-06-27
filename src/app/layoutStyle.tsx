@@ -9,6 +9,10 @@ export const Container = styled.body`
   width: 100%;
   overflow-x: hidden;
   background-color: ${color.background};
+
+  * {
+    font-family: 'Ubuntu', sans-serif;
+  }
 `;
 
 export const Menu = styled.div`

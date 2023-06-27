@@ -105,36 +105,40 @@ export default function VendasPage(): JSX.Element {
   }
 
   async function registerSale(): Promise<any> {
-    function addFinalValue(): void {
-      let soma = 0;
-      for (let i = 0; i < finalPriceCalc.length; i++) {
-        soma += finalPriceCalc[i];
-      }
-      finalPrice.push(soma);
+    if (finalPriceCalc.length !== 0) {
+      const addFinalValue = (): void => {
+        let soma = 0;
+        for (let i = 0; i < finalPriceCalc.length; i++) {
+          soma += finalPriceCalc[i];
+        }
+        finalPrice.push(soma);
+      };
+
+      addFinalValue();
+
+      const data = {
+        data: {
+          products: marketCart,
+          client: clientSelected,
+          dateandtime: now,
+          numberofproducts: {
+            data: marketCartCount
+          },
+          saleprice: finalPrice
+        }
+      };
+
+      await axios
+        .post(API_URL_SALES, data)
+        .then((res) => {
+          toast.done('Registro realizado com sucesso');
+        })
+        .catch((err) => {
+          toast.error('Toast is good', err);
+        });
+    } else if (finalPrice === null) {
+      toast.error('Algo deu errado');
     }
-
-    addFinalValue();
-
-    const data = {
-      data: {
-        products: marketCart,
-        client: clientSelected,
-        dateandtime: now,
-        numberofproducts: {
-          data: marketCartCount
-        },
-        saleprice: finalPrice
-      }
-    };
-
-    await axios
-      .post(API_URL_SALES, data)
-      .then((res) => {
-        toast.done('Registro realizado com sucesso');
-      })
-      .catch((err) => {
-        toast.error('Toast is good', err);
-      });
   }
 
   return (
@@ -155,7 +159,7 @@ export default function VendasPage(): JSX.Element {
             }}
           />
           <ClientSelectorContainer>
-            <ClientSelectorLabel>Selecione o cliente :</ClientSelectorLabel>
+            <ClientSelectorLabel>Cliente :</ClientSelectorLabel>
             <ClientSelector
               name="cliente"
               id="cliente"
@@ -238,11 +242,11 @@ export default function VendasPage(): JSX.Element {
           return (
             <SaleInfoContainer key={venda.id}>
               <SaleInfoIdContainer>
-                <SaleInfoIdLabel>ID :</SaleInfoIdLabel>
+                <SaleInfoIdLabel>ID</SaleInfoIdLabel>
                 <SaleInfoIdValue>{venda.id}</SaleInfoIdValue>
               </SaleInfoIdContainer>
               <SaleInfoClientNameContainer>
-                <SaleInfoClientNameLabel>Cliente :</SaleInfoClientNameLabel>
+                <SaleInfoClientNameLabel>Cliente</SaleInfoClientNameLabel>
                 <SaleInfoClientName>
                   {venda.attributes.client.data.attributes.name}
                 </SaleInfoClientName>
@@ -250,7 +254,7 @@ export default function VendasPage(): JSX.Element {
               <SaleInfoProductContainer>
                 <SaleInfoProductNameAndPriceContainer>
                   <SaleInfoProductNameContainer>
-                    <SaleInfoProductLabel>Produtos :</SaleInfoProductLabel>
+                    <SaleInfoProductLabel>Produtos</SaleInfoProductLabel>
                     {venda.attributes.products.data.map((produto: any) => {
                       return (
                         <SaleInfoProductName key={produto.id}>
@@ -260,9 +264,7 @@ export default function VendasPage(): JSX.Element {
                     })}
                   </SaleInfoProductNameContainer>
                   <SaleInfoProductPriceContainer>
-                    <SaleInfoProductPriceLabel>
-                      Valor do produto :
-                    </SaleInfoProductPriceLabel>
+                    <SaleInfoProductPriceLabel>Preço</SaleInfoProductPriceLabel>
                     {venda.attributes.products.data.map((produto: any) => {
                       return (
                         <SaleInfoProductPrice key={produto.id}>
@@ -274,7 +276,7 @@ export default function VendasPage(): JSX.Element {
                 </SaleInfoProductNameAndPriceContainer>
               </SaleInfoProductContainer>
               <SaleInfoNumProductContainer>
-                <SaleInfoNumProductLabel>Quantidade :</SaleInfoNumProductLabel>
+                <SaleInfoNumProductLabel>Quantidade</SaleInfoNumProductLabel>
                 {venda.attributes.numberofproducts.data.map((data: any) => {
                   return (
                     <SaleProductNumContainer key={Math.random()}>
@@ -284,7 +286,7 @@ export default function VendasPage(): JSX.Element {
                 })}
               </SaleInfoNumProductContainer>
               <SaleInfoTotalPriceContainer>
-                <SaleInfoTotalPriceLabel>Valor total :</SaleInfoTotalPriceLabel>
+                <SaleInfoTotalPriceLabel>Valor total</SaleInfoTotalPriceLabel>
                 <SaleInfoTotalPriceValue>
                   R$ {venda.attributes.saleprice}
                 </SaleInfoTotalPriceValue>
