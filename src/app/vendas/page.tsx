@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { FaShoppingCart, FaPlus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 import { API_URL_CLIENTS, API_URL_PRODUCTS, API_URL_SALES } from '@/config/api';
@@ -26,7 +27,29 @@ import {
   SaleProductNumContainer,
   SaleProductNum,
   SalePriceContainer,
-  SalePriceValue
+  SalePriceValue,
+  SaleInfoProductNameContainer,
+  SaleInfoClientNameContainer,
+  SaleInfoClientNameLabel,
+  SaleInfoIdContainer,
+  SaleInfoIdLabel,
+  SaleInfoIdValue,
+  SaleInfoProductLabel,
+  SaleInfoNumProductContainer,
+  SaleInfoNumProductLabel,
+  SaleInfoProductNameAndPriceContainer,
+  SaleInfoProductPriceContainer,
+  SaleInfoTotalPriceContainer,
+  SaleInfoTotalPriceLabel,
+  SaleInfoTotalPriceValue,
+  SaleInfoProductPriceLabel,
+  SaleInfoContainerClose,
+  Title,
+  SaleInfoContainerOpen,
+  ClientSelectorLabel,
+  ClientSelectorContainer,
+  RegisterProductInputContainer,
+  ModalTitle
 } from './vendasStyle';
 import 'react-toastify/dist/ReactToastify.css';
 export default function VendasPage(): JSX.Element {
@@ -51,7 +74,7 @@ export default function VendasPage(): JSX.Element {
         setFetchClientsRes(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Algo deu errado :', err);
       });
     axios
       .get(API_URL_PRODUCTS)
@@ -59,16 +82,15 @@ export default function VendasPage(): JSX.Element {
         setFetchProductsRes(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err);
       });
     axios
       .get(API_URL_SALES + '?populate=*')
       .then((res) => {
         setFetchSalesRes(res.data.data);
-        console.log(fetchSalesRes);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err);
       });
   }, [fetchSalesRes]);
 
@@ -80,10 +102,6 @@ export default function VendasPage(): JSX.Element {
     marketCart.push(productId);
     marketCartCount.push(productNum);
     finalPriceCalc.push(productNum * productPrice);
-
-    console.log(marketCart);
-    console.log(marketCartCount);
-    console.log(finalPriceCalc.length);
   }
 
   async function registerSale(): Promise<any> {
@@ -92,15 +110,11 @@ export default function VendasPage(): JSX.Element {
       for (let i = 0; i < finalPriceCalc.length; i++) {
         soma += finalPriceCalc[i];
       }
-      console.log(soma);
       finalPrice.push(soma);
     }
 
     addFinalValue();
 
-    console.log(`Preço final: ${finalPrice}`);
-
-    console.log(now);
     const data = {
       data: {
         products: marketCart,
@@ -112,137 +126,169 @@ export default function VendasPage(): JSX.Element {
         saleprice: finalPrice
       }
     };
-    console.log(data);
-    console.log(marketCart);
-    console.log(clientSelected);
-    console.log(marketCartCount);
+
     await axios
       .post(API_URL_SALES, data)
       .then((res) => {
-        console.log('Deu certo');
-        toast('Toast is good', {
-          hideProgressBar: true,
-          autoClose: 2000,
-          type: 'success'
-        });
+        toast.done('Registro realizado com sucesso');
       })
       .catch((err) => {
-        console.log(err);
-        toast('Toast is good', {
-          hideProgressBar: true,
-          autoClose: 2000,
-          type: 'success'
-        });
+        toast.error('Toast is good', err);
       });
   }
 
-  console.log(clientSelected);
-
   return (
     <Container>
+      <SaleInfoContainerOpen
+        onClick={() => {
+          setModalAddSale(true);
+        }}
+      >
+        Adicionar venda <FaPlus />
+      </SaleInfoContainerOpen>
       {modalAddSale ? (
         <RegisterSaleContainer>
-          <ClientSelector
-            name="cliente"
-            id="cliente"
-            defaultValue=""
-            onChange={(e) => {
-              setClientSelected(e.target.value);
+          <ModalTitle>Registrar venda</ModalTitle>
+          <SaleInfoContainerClose
+            onClick={() => {
+              setModalAddSale(false);
             }}
-          >
-            <ClientSelectorOption
-              value=""
-              disabled={true}
-            ></ClientSelectorOption>
-            {fetchClientsRes?.map((cliente) => {
-              return (
-                <ClientSelectorOption key={cliente.id} value={cliente.id}>
-                  {cliente.attributes.name}
-                </ClientSelectorOption>
-              );
-            })}
-          </ClientSelector>
+          />
+          <ClientSelectorContainer>
+            <ClientSelectorLabel>Selecione o cliente :</ClientSelectorLabel>
+            <ClientSelector
+              name="cliente"
+              id="cliente"
+              defaultValue=""
+              onChange={(e) => {
+                setClientSelected(e.target.value);
+              }}
+            >
+              <ClientSelectorOption
+                value=""
+                disabled={true}
+              ></ClientSelectorOption>
+              {fetchClientsRes?.map((cliente) => {
+                return (
+                  <ClientSelectorOption key={cliente.id} value={cliente.id}>
+                    {cliente.attributes.name}
+                  </ClientSelectorOption>
+                );
+              })}
+            </ClientSelector>
+          </ClientSelectorContainer>
           <ProductSelectorContainer>
+            <p>Selecionar produtos: </p>
             {fetchProductsRes?.map((produto) => {
               return (
                 <RegisterProductContainer key={produto.id}>
                   <RegisterProductName>
                     {produto.attributes.name}
                   </RegisterProductName>
-                  <RegisterProductInput
-                    type="number"
-                    name=""
-                    min={0}
-                    id=""
-                    onClick={(): any => {
-                      setInputSelected(produto.id);
-                    }}
-                    onChangeCapture={(e: any) => {
-                      setNumberProductSelected(e.target.value);
-                    }}
-                  />
-                  <RegisterProductButton
-                    onClick={() => {
-                      if (produto.id === inputSelected) {
-                        sendToCart(
-                          produto.id,
-                          numberProductSelected,
-                          produto.attributes.price
-                        );
-                      }
-                    }}
-                  >
-                    Adicionar ao carrinho
-                  </RegisterProductButton>
+                  <RegisterProductInputContainer>
+                    <RegisterProductInput
+                      type="number"
+                      name=""
+                      min={0}
+                      id=""
+                      onClick={(): any => {
+                        setInputSelected(produto.id);
+                      }}
+                      onChangeCapture={(e: any) => {
+                        setNumberProductSelected(e.target.value);
+                      }}
+                    />
+                    <RegisterProductButton
+                      onClick={() => {
+                        if (produto.id === inputSelected) {
+                          sendToCart(
+                            produto.id,
+                            numberProductSelected,
+                            produto.attributes.price
+                          );
+                        }
+                      }}
+                    />
+                  </RegisterProductInputContainer>
                 </RegisterProductContainer>
               );
             })}
-            <RegisterSaleButtonAdd onClick={() => registerSale()}>
-              Registrar compra
-            </RegisterSaleButtonAdd>
-            <RegisterSaleButtonCancel
-              onClick={() => {
-                try {
-                  setMarketCart([]);
-                } finally {
-                  console.log(marketCart);
-                }
-              }}
-            >
-              Cancelar compra
-            </RegisterSaleButtonCancel>
+            <div>
+              <RegisterSaleButtonAdd onClick={() => registerSale()}>
+                Registrar compra
+              </RegisterSaleButtonAdd>
+              <RegisterSaleButtonCancel
+                onClick={() => {
+                  try {
+                    setMarketCart([]);
+                  } finally {
+                    setModalAddSale(false);
+                  }
+                }}
+              >
+                Cancelar compra
+              </RegisterSaleButtonCancel>
+            </div>
           </ProductSelectorContainer>
         </RegisterSaleContainer>
       ) : null}
+      <Title>Vendas</Title>
       <ShowSalesContainer>
         {fetchSalesRes?.map((venda) => {
           return (
             <SaleInfoContainer key={venda.id}>
-              <SaleInfoClientName>
-                {venda.attributes.client.data.attributes.name}
-              </SaleInfoClientName>
-              {venda.attributes.products.data.map((produto: any) => {
-                return (
-                  <SaleInfoProductContainer key={produto.id}>
-                    <SaleInfoProductName>
-                      {produto.attributes.name}
-                    </SaleInfoProductName>
-                    <SaleInfoProductPrice>
-                      {produto.attributes.price}
-                    </SaleInfoProductPrice>
-                  </SaleInfoProductContainer>
-                );
-              })}
-              {venda.attributes.numberofproducts.data.map((data: any) => {
-                return (
-                  <SaleProductNumContainer key={Math.random()}>
-                    <SaleProductNum>{data}</SaleProductNum>
-                  </SaleProductNumContainer>
-                );
-              })}
-              <div>
-                <p>{venda.attributes.saleprice}</p>
-              </div>
+              <SaleInfoIdContainer>
+                <SaleInfoIdLabel>ID :</SaleInfoIdLabel>
+                <SaleInfoIdValue>{venda.id}</SaleInfoIdValue>
+              </SaleInfoIdContainer>
+              <SaleInfoClientNameContainer>
+                <SaleInfoClientNameLabel>Cliente :</SaleInfoClientNameLabel>
+                <SaleInfoClientName>
+                  {venda.attributes.client.data.attributes.name}
+                </SaleInfoClientName>
+              </SaleInfoClientNameContainer>
+              <SaleInfoProductContainer>
+                <SaleInfoProductNameAndPriceContainer>
+                  <SaleInfoProductNameContainer>
+                    <SaleInfoProductLabel>Produtos :</SaleInfoProductLabel>
+                    {venda.attributes.products.data.map((produto: any) => {
+                      return (
+                        <SaleInfoProductName key={produto.id}>
+                          {produto.attributes.name}
+                        </SaleInfoProductName>
+                      );
+                    })}
+                  </SaleInfoProductNameContainer>
+                  <SaleInfoProductPriceContainer>
+                    <SaleInfoProductPriceLabel>
+                      Valor do produto :
+                    </SaleInfoProductPriceLabel>
+                    {venda.attributes.products.data.map((produto: any) => {
+                      return (
+                        <SaleInfoProductPrice key={produto.id}>
+                          R$ {produto.attributes.price}
+                        </SaleInfoProductPrice>
+                      );
+                    })}
+                  </SaleInfoProductPriceContainer>
+                </SaleInfoProductNameAndPriceContainer>
+              </SaleInfoProductContainer>
+              <SaleInfoNumProductContainer>
+                <SaleInfoNumProductLabel>Quantidade :</SaleInfoNumProductLabel>
+                {venda.attributes.numberofproducts.data.map((data: any) => {
+                  return (
+                    <SaleProductNumContainer key={Math.random()}>
+                      <SaleProductNum>{data}</SaleProductNum>
+                    </SaleProductNumContainer>
+                  );
+                })}
+              </SaleInfoNumProductContainer>
+              <SaleInfoTotalPriceContainer>
+                <SaleInfoTotalPriceLabel>Valor total :</SaleInfoTotalPriceLabel>
+                <SaleInfoTotalPriceValue>
+                  R$ {venda.attributes.saleprice}
+                </SaleInfoTotalPriceValue>
+              </SaleInfoTotalPriceContainer>
             </SaleInfoContainer>
           );
         })}

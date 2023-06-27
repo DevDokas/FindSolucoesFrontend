@@ -67,7 +67,7 @@ export default function ClientesPage(): JSX.Element {
         setFetchRes(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err);
       });
   }, []);
 
@@ -98,7 +98,6 @@ export default function ClientesPage(): JSX.Element {
       console.log(data);
     } else if (userName === '' || userEmail === '') {
       setNullInput(true);
-      console.log('Insira o nome e email para realizar o cadastro.');
       toast.error('Insira o nome e email para realizar o cadastro.');
     }
   }
