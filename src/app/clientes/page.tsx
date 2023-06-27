@@ -86,16 +86,12 @@ export default function ClientesPage(): JSX.Element {
         .post(API_URL_CLIENTS, data)
         .then((res) => {
           setUserCreated(true);
-          console.log(res);
           toast.done('Cliente registrado com sucesso');
           router.push('/clientes');
         })
         .catch((err) => {
-          console.log(err);
-          toast.error('Houve um erro ao registrar o cliente.');
+          toast.error('Houve um erro ao registrar o cliente.', err);
         });
-
-      console.log(data);
     } else if (userName === '' || userEmail === '') {
       setNullInput(true);
       toast.error('Insira o nome e email para realizar o cadastro.');
@@ -114,24 +110,24 @@ export default function ClientesPage(): JSX.Element {
     await axios
       .put(API_URL_CLIENTS + clientID, data)
       .then((res) => {
-        console.log(res);
         router.replace('/clientes');
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(
+          'Houve um erro ao tentar atualizar as informações do cliente',
+          err
+        );
       });
   }
 
   async function DeleteUserAccount(clientID: string): Promise<any> {
-    console.log(API_URL_CLIENTS + clientID);
     await axios
       .delete(API_URL_CLIENTS + clientID)
       .then((res) => {
         router.refresh();
-        console.log('Usuário deletado com sucesso! - LOG :', res);
       })
       .catch((err) => {
-        console.log('Erro ao deletar o usuário. - LOG :', err);
+        toast.error('Houve um erro ao tentar deletar o usuário', err);
       });
   }
 

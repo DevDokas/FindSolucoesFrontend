@@ -68,7 +68,7 @@ export default function ClientesPage(): JSX.Element {
         setFetchRes(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Houve um erro ao tentar conectar com o servidor', err);
       });
   }, []);
 
@@ -87,19 +87,14 @@ export default function ClientesPage(): JSX.Element {
         .post(API_URL_PRODUCTS, data)
         .then((res) => {
           setProductCreated(true);
-          console.log(res);
           toast.done('Produto registrado com sucesso');
           router.push('/produtos');
         })
         .catch((err) => {
-          console.log(err);
-          toast.error('Houve um erro ao registrar o produto.');
+          toast.error('Houve um erro ao registrar o produto.', err);
         });
-
-      console.log(data);
     } else if (productName === '' || productPrice === '') {
       setNullInput(true);
-      console.log('Insira o nome e o preço para realizar o cadastro.');
       toast.error('Insira o nome e o preço para realizar o cadastro.');
     }
   }
@@ -116,24 +111,23 @@ export default function ClientesPage(): JSX.Element {
     await axios
       .put(API_URL_PRODUCTS + productID, data)
       .then((res) => {
-        console.log(res);
+        toast.done('Informações do produto atualizadas com sucesso!');
         router.refresh();
       })
       .catch((err) => {
-        console.log(err);
+        toast.error('Houve um erro ao tentar atualizar o produto :', err);
       });
   }
 
   async function DeleteProductRegister(productID: string): Promise<any> {
-    console.log(API_URL_PRODUCTS + productID);
     await axios
       .delete(API_URL_PRODUCTS + productID)
       .then((res) => {
         router.refresh();
-        console.log('Produto deletado com sucesso! - LOG :', res);
+        toast.done('Produto deletado com sucesso!');
       })
       .catch((err) => {
-        console.log('Erro ao deletar o produto. - LOG :', err);
+        toast.error('Erro ao deletar o produto. - LOG :', err);
       });
   }
 
